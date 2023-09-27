@@ -1,7 +1,3 @@
-const Joi = require('joi');
-
-
-
 class validateUser {
 
     constructor(NameUser, Joi) {
