@@ -1,3 +1,4 @@
+
 class validateUser {
 
     constructor(NameUser, Joi) {
