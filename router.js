@@ -6,7 +6,9 @@ module.exports = function (app) {
   })
 
   app.post('/register',(req,res) => {
-    const userRegister = req.body
+    const user = req.body.user
+    const password = req.body.password
+
     res.sendStatus(200)
   })
 
