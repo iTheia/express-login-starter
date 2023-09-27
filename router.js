@@ -8,7 +8,7 @@ module.exports = function (app) {
   app.post('/register',(req,res) => {
     const user = req.body.user
     const password = req.body.password
-
+    const userRegister = req.body
     res.sendStatus(200)
   })
 
