@@ -1,4 +1,5 @@
 
-const Joi = require('joi');
 
+app.post('/login', postLogin)
 
+app.post('/register', postRegister)
