@@ -1,3 +1,6 @@
+
+const authRouter = require('./modules/auth/router.js')
+
 module.exports = function (app) {
 
   app.post('/login',(req,res) => {
@@ -6,7 +9,9 @@ module.exports = function (app) {
   })
 
   app.post('/register',(req,res) => {
-    const userRegister = req.body
+    const user = req.body.user
+    const password = req.body.password
+
     res.sendStatus(200)
   })
 
