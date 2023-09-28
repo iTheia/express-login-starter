@@ -24,8 +24,10 @@ class validateUser {
 
         if (error) {
             return (`user validation error: ${error.details[0].message}`)
-        } else {
-            return (`valid user: ${value}`)
         }
+        return value
     }
 }
+
+
+module.exports = validateUser

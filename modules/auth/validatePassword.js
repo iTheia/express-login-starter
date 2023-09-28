@@ -2,7 +2,7 @@
 
 class validatePassword {
 
-    constructor(userPassword,Joi) {
+    constructor(userPassword, Joi) {
         this.userPassword = userPassword
         this.Joi = Joi
         this.passwordSchema
@@ -23,10 +23,10 @@ class validatePassword {
 
 
         if (error) {
-            return(`Password validation error: ${error.details[0].message}`)
-        } else {
-            return(`valid password: ${value}`)
+            return (`Password validation error: ${error.details[0].message}`)
         }
+
+        return value
     }
 }
 
