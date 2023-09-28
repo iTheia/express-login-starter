@@ -15,7 +15,7 @@ class validatePassword {
             .pattern(new RegExp('^[a-zA-Z0-9!@#$%^&*()_+\\-=\\[\\]{};:\'"|,.?<>\\/\\\\]{3,30}$'))
     }
 
-    validatePassword() {
+    validate() {
 
         this._configuration()
 

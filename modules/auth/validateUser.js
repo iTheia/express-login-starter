@@ -9,9 +9,8 @@ class validateUser {
 
     _configuration() {
         this.userSchema = this.Joi.string()
-            .alphanum()
-            .min(3)
-            .max(30)
+            .min(4)
+            .max(8)
             .required()
     }
 

@@ -1,36 +1,37 @@
 const Joi = require('joi');
 const validateUser = require('./validateUser.js')
 const validatePassword = require('./validatePassword.js')
-const bcrypt = require("bcrypt")
+const encryption = require('./bcryptUtils.js')
+
 
 function postLogin(req, res) {
-    const userLogin = req.body
-
-
     res.sendStatus(200)
 }
 
-function postRegister() {
-    const user = req.body.user
-    const password = req.body.password
+function postRegister(req, res) {
+    const user = req.body.user;
+    const password = req.body.password;
 
-    const verifyPassword = new validatePassword(password, Joi)
-    const verifyUser = new validateUser(user, Joi)
+    const verifyPassword = new validatePassword(password, Joi);
+    const verifyUser = new validateUser(user, Joi);
 
-    const saltRounds = 10
+    if (password !== verifyPassword.validate()) {
+        res.send(verifyPassword.validate())
+    }
 
+    if (user !== verifyUser.validate()) {
+        res.send(verifyUser.validate())
+    }
 
-    bcrypt
-        .genSalt(saltRounds)
-        .then(salt => {
-            console.log('Salt: ', salt)
-            return bcrypt.hash(verifyPassword, salt)
-        })
-        .then(hash => {
-            console.log('Hash: ', hash)
-        })
-        .catch(err => console.error(err.message))
+    const saltRounds = 10;
 
+    const hash = encryption(saltRounds, verifyPassword.validate());
 
     res.sendStatus(200)
+
+}
+
+module.exports = {
+    postLogin,
+    postRegister
 }
