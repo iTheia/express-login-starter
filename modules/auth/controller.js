@@ -23,7 +23,7 @@ async function postLogin(req, res) {
     }
 
     var jwt = require('jsonwebtoken');
-    var token = jwt.sign({ user: validatedPayload }, "Password is not correct");
+    var token = jwt.sign({ user: req.body.user }, "Password is not correct");
 
     return res.send(token)
 }
