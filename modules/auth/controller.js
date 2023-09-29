@@ -1,34 +1,51 @@
-const Joi = require('joi');
-const validateUser = require('./validateUser.js')
-const validatePassword = require('./validatePassword.js')
-const encryption = require('./bcryptUtils.js')
 
+const { hash } = require('bcrypt');
+const { encryption, existPassword } = require('./bcryptUtils.js')
+const { validateRegister, userExist } = require('./validation.js')
+const { usersDatabase } = require('./repository.js')
 
-function postLogin(req, res) {
-    res.sendStatus(200)
+async function postLogin(req, res) {
+    try {
+
+        const validatedPayload = await validateRegister({ user: req.body.user });
+
+        const match = await existPassword(req.body.password, req.body.user, usersDatabase)
+
+        if(!match){
+            return res.send("Password is not correct")
+        }
+
+    } catch (error) {
+        return res.status(400).send(error);
+    }
+
+    return res.sendStatus(200)
 }
 
-function postRegister(req, res) {
-    const user = req.body.user;
-    const password = req.body.password;
+async function postRegister(req, res) {
 
-    const verifyPassword = new validatePassword(password, Joi);
-    const verifyUser = new validateUser(user, Joi);
-
-    if (password !== verifyPassword.validate()) {
-        res.send(verifyPassword.validate())
+    if (userExist(usersDatabase, req.body.user)) {
+        return res.send("Username already exist")
     }
 
-    if (user !== verifyUser.validate()) {
-        res.send(verifyUser.validate())
+    try {
+
+        const validatedPayload = await validateRegister({ user: req.body.user, password: req.body.password })
+
+        if (!(req.body.password === req.body.passwordConfirm ? true : false)) {
+            return res.send("passwords are not the same")
+        }
+
+        const SALT_ROUNDS = 10;
+        const hash = await encryption(SALT_ROUNDS, validatedPayload.password);
+
+        usersDatabase.push({ user: req.body.user, hash: hash })
+
+    } catch (error) {
+        return res.status(400).send(error);
     }
 
-    const saltRounds = 10;
-
-    const hash = encryption(saltRounds, verifyPassword.validate());
-
-    res.sendStatus(200)
-
+    return res.sendStatus(200)
 }
 
 module.exports = {
