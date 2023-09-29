@@ -1,13 +1,8 @@
 
-// {
-//     user: 'jose',
-//     hash: '432edd@'
-// }
 
-const usersDatabase = [register];
+const usersDatabase = [];
 
 
 module.exports = {
-    usersDatabase,
-    register
+    usersDatabase
 }
